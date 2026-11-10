@@ -1,4 +1,4 @@
-/**ckck
+/**
  * Model a location in a two-dimensional grid city using (x, y) coordinates.
  * The x coordinate is the row and the y coordinate is the column of the grid,
  * so both must be between 0 and the grid size minus one
