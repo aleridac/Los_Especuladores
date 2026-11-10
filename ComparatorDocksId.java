@@ -1,10 +1,11 @@
-import java.util.*; 
+import java.util.*;
 
 /**
- * Compares two {@link Dock} objects based on their **ID** string in **ascending** order.
- * This is typically used as a final tie-breaker in multi-criteria sorting.
- * @author DP Clasess
- * @version 2026.10.13
+ * Compares two {@link Dock} objects based on their ID in ascending order.
+ * It is used as the final tie-breaker of {@link ComparatorDocksChargingSpeed}.
+ * @author DP classes
+ * @author Alvaro
+ * @version 2026.11.10
  */
 public class ComparatorDocksId implements Comparator<Dock>
 {
@@ -13,11 +14,12 @@ public class ComparatorDocksId implements Comparator<Dock>
      * The comparison is based on the lexicographical order of their IDs.
      * @param c1 The first dock to be compared.
      * @param c2 The second dock to be compared.
-     * @return A negative integer, zero, or a positive integer as the first 
-     * dock's ID is lexicographically less than, equal to, or greater than the second.
+     * @return A negative integer, zero, or a positive integer as the first
+     * dock's ID is less than, equal to, or greater than the second one's.
      */
-    public int compare(Dock c1, Dock c2){  
-        //TODO: Complete this code   
-        return 0;  
-    } 
+    @Override
+    public int compare(Dock c1, Dock c2)
+    {
+        return c1.getIdDock().compareTo(c2.getIdDock());
+    }
 }

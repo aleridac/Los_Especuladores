@@ -1,10 +1,12 @@
-import java.util.*;
-
-/**
+/**ckck
  * Model a location in a two-dimensional grid city using (x, y) coordinates.
+ * The x coordinate is the row and the y coordinate is the column of the grid,
+ * so both must be between 0 and the grid size minus one
+ * ({@link EBikeDemo#MAXX} and {@link EBikeDemo#MAXY}).
  * @author David J. Barnes and Michael Kölling
- * @author DP classes 
- * @version 2026.10.13
+ * @author DP classes
+ * @author Alvaro
+ * @version 2026.11.10
  */
 public class Location
 {
@@ -13,128 +15,88 @@ public class Location
 
     /**
      * Model a location in the city.
-     * @param x The x coordinate. Must be non-negative.
-     * @param y The y coordinate. Must be non-negative.
-     * @throws IllegalArgumentException If a coordinate is negative.
+     * @param x The x coordinate (row). Must be between 0 and {@link EBikeDemo#MAXX} - 1.
+     * @param y The y coordinate (column). Must be between 0 and {@link EBikeDemo#MAXY} - 1.
+     * @throws IllegalArgumentException If a coordinate is out of the grid.
      */
     public Location(int x, int y)
     {
-        if(x < 0) {
-            throw new IllegalArgumentException(
-                        "Negative x-coordinate: " + x);
-        }
-        if(y < 0) {
-            throw new IllegalArgumentException(
-                        "Negative y-coordinate: " + y);
-        }        
+        checkX(x);
+        checkY(y);
         this.x = x;
         this.y = y;
     }
-    
+
     /**
-     * Generates the next location to visit in a direct line (Manhattan-style diagonal/straight move) 
-     * from this location to the destination.
+     * Generates the next location to visit on the way from this location
+     * to the destination. In each step, 1 is added to or subtracted from
+     * every coordinate that is still different from the destination one,
+     * so the movement is diagonal until one coordinate matches, and then
+     * straight along the other one.
      * @param destination The {@link Location} we want to get to.
-     * @return The next {@link Location} one step closer to the destination. Returns the destination
-     * if this location is already the destination.
+     * @return The next {@link Location} one step closer to the destination.
+     * Returns a location equal to the destination if this location is
+     * already the destination.
+     * @throws IllegalArgumentException If the destination is null.
      */
-    public Location nextLocation(Location destination){
-         
-        int a = this.x;
-        int b = this.y;
-        
-        if (this.x != destination.x){
-            if(this.x < destination.x){
-                a++;
-            }
-            else{
-                a--;
-            }
+    public Location nextLocation(Location destination)
+    {
+        if(destination == null) {
+            throw new IllegalArgumentException("The destination cannot be null");
         }
-        
-        if (this.y != destination.y){
-            if(this.y < destination.y){
-                b++;
-            }
-            else{
-                b--;
-            }
+        int nextX = getX();
+        int nextY = getY();
+
+        if(getX() < destination.getX()) {
+            nextX++;
         }
-        
-        return new Location(a,b);
-        
+        else if(getX() > destination.getX()) {
+            nextX--;
+        }
+
+        if(getY() < destination.getY()) {
+            nextY++;
+        }
+        else if(getY() > destination.getY()) {
+            nextY--;
+        }
+
+        return new Location(nextX, nextY);
     }
 
     /**
-     * Determines the number of movements required to get from here to the destination, 
-     * using the Chebyshev distance (maximum of the absolute differences of the coordinates).
+     * Determines the number of steps required to get from here to the
+     * destination. It is the maximum of the absolute differences between
+     * the x coordinates and the y coordinates of both locations.
      * @param destination The required destination {@link Location}.
-     * @return The number of movement steps.
+     * @return The number of steps to get to the destination.
+     * @throws IllegalArgumentException If the destination is null.
      */
-    public int distance(Location destination){
-        
-        int difX = this.x - destination.x;
-        int difY = this.y - destination.y;
-        int res;
-        
-        if (difX < 0){
+    public int distance(Location destination)
+    {
+        if(destination == null) {
+            throw new IllegalArgumentException("The destination cannot be null");
+        }
+        int difX = getX() - destination.getX();
+        int difY = getY() - destination.getY();
+
+        if(difX < 0) {
             difX = -difX;
         }
-        
-        if (difY < 0){
+        if(difY < 0) {
             difY = -difY;
         }
-        
-        if (difX > difY){
-            res = difX;
+
+        if(difX > difY) {
+            return difX;
         }
-        else{
-            res = difY;
+        else {
+            return difY;
         }
-        
-        return res;
-        
-    }
-    /**
-     * Implement content equality for locations.
-     * @param other The object to compare with.
-     * @return {@code true} if the other object is a {@link Location} and has the same x and y coordinates, {@code false} otherwise.
-     */
-    @Override
-    public boolean equals(Object other)
-    {
-        if (this == other) {
-            return true;
-        }
-        if (!(other instanceof Location)) {
-            return false;
-        }
-        Location location = (Location) other;
-        return x == location.x && y == location.y;
-    }
-    
-    /**
-     * @return A string representation of the location in the format "x-y".
-     */
-    @Override
-    public String toString()
-    {
-        return x + "-" + y;
     }
 
     /**
-     * Generates a hash code for the location.
-     * It uses the top 16 bits for the y value and the bottom 16 bits for the x value
-     * to ensure a unique hash code for most grid sizes.
-     * @return A hashcode for the location.
-     */
-    @Override
-    public int hashCode()
-    {
-        return (y << 16) + x;
-    }
-
-    /**
+     * Gets the x coordinate (row) of the location.
      * @return The x coordinate.
      */
     public int getX()
@@ -143,10 +105,107 @@ public class Location
     }
 
     /**
+     * Sets the x coordinate (row) of the location.
+     * @param x The new x coordinate. Must be between 0 and {@link EBikeDemo#MAXX} - 1.
+     * @throws IllegalArgumentException If the coordinate is out of the grid.
+     */
+    public void setX(int x)
+    {
+        checkX(x);
+        this.x = x;
+    }
+
+    /**
+     * Gets the y coordinate (column) of the location.
      * @return The y coordinate.
      */
     public int getY()
     {
         return y;
+    }
+
+    /**
+     * Sets the y coordinate (column) of the location.
+     * @param y The new y coordinate. Must be between 0 and {@link EBikeDemo#MAXY} - 1.
+     * @throws IllegalArgumentException If the coordinate is out of the grid.
+     */
+    public void setY(int y)
+    {
+        checkY(y);
+        this.y = y;
+    }
+
+    /**
+     * Checks that an x coordinate is inside the grid.
+     * It is only for internal use of the class (constructor and setX).
+     * @param x The x coordinate to check.
+     * @throws IllegalArgumentException If the coordinate is out of the grid.
+     */
+    private void checkX(int x)
+    {
+        if(x < 0 || x >= EBikeDemo.MAXX) {
+            throw new IllegalArgumentException(
+                        "x-coordinate out of the grid (0-" + (EBikeDemo.MAXX - 1) + "): " + x);
+        }
+    }
+
+    /**
+     * Checks that a y coordinate is inside the grid.
+     * It is only for internal use of the class (constructor and setY).
+     * @param y The y coordinate to check.
+     * @throws IllegalArgumentException If the coordinate is out of the grid.
+     */
+    private void checkY(int y)
+    {
+        if(y < 0 || y >= EBikeDemo.MAXY) {
+            throw new IllegalArgumentException(
+                        "y-coordinate out of the grid (0-" + (EBikeDemo.MAXY - 1) + "): " + y);
+        }
+    }
+
+    /**
+     * Checks whether this location is equal to another object.
+     * Two locations are considered equal if they have the same x and y coordinates.
+     * @param obj The object to compare with this location.
+     * @return true if obj is a {@link Location} with the same x and y
+     * coordinates, false otherwise.
+     */
+    @Override
+    public boolean equals(Object obj)
+    {
+        if(this == obj) {
+            return true;
+        }
+        if(!(obj instanceof Location)) {
+            return false;
+        }
+        Location other = (Location) obj;
+        return getX() == other.getX() && getY() == other.getY();
+    }
+
+    /**
+     * Returns a hash code for this location, based on its x and y coordinates
+     * (the same fields used in {@link #equals(Object)}).
+     * Hashcode technique taken from Effective Java by Joshua Bloch.
+     * @return The hash code of the location.
+     */
+    @Override
+    public int hashCode()
+    {
+        int result = 7;
+        result = 3 * result + getX();
+        result = 5 * result + getY();
+        return result;
+    }
+
+    /**
+     * Returns a string representation of the location in the format "x-y",
+     * as required by the simulation output.
+     * @return A string representation of the location.
+     */
+    @Override
+    public String toString()
+    {
+        return getX() + "-" + getY();
     }
 }
