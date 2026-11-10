@@ -38,10 +38,31 @@ public class Location
      * @return The next {@link Location} one step closer to the destination. Returns the destination
      * if this location is already the destination.
      */
-    public Location nextLocation(Location destination)
-    {
-         //TODO: Complete this code
-        return null;
+    public Location nextLocation(Location destination){
+         
+        int a = this.x;
+        int b = this.y;
+        
+        if (this.x != destination.x){
+            if(this.x < destination.x){
+                a++;
+            }
+            else{
+                a--;
+            }
+        }
+        
+        if (this.y != destination.y){
+            if(this.y < destination.y){
+                b++;
+            }
+            else{
+                b--;
+            }
+        }
+        
+        return new Location(a,b);
+        
     }
 
     /**
@@ -50,12 +71,30 @@ public class Location
      * @param destination The required destination {@link Location}.
      * @return The number of movement steps.
      */
-    public int distance(Location destination)
-    {
-         //TODO: Complete this code
-        return 0;
+    public int distance(Location destination){
+        
+        int difX = this.x - destination.x;
+        int difY = this.y - destination.y;
+        int res;
+        
+        if (difX < 0){
+            difX = -difX;
+        }
+        
+        if (difY < 0){
+            difY = -difY;
+        }
+        
+        if (difX > difY){
+            res = difX;
+        }
+        else{
+            res = difY;
+        }
+        
+        return res;
+        
     }
-    
     /**
      * Implement content equality for locations.
      * @param other The object to compare with.
@@ -64,8 +103,14 @@ public class Location
     @Override
     public boolean equals(Object other)
     {
-         //TODO: Complete this code
-        return true;
+        if (this == other) {
+            return true;
+        }
+        if (!(other instanceof Location)) {
+            return false;
+        }
+        Location location = (Location) other;
+        return x == location.x && y == location.y;
     }
     
     /**
