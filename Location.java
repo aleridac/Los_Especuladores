@@ -1,11 +1,10 @@
 /**
- * Model a location in a two-dimensional grid city using (x, y) coordinates.
- * The x coordinate is the row and the y coordinate is the column of the grid,
- * so both must be between 0 and the grid size minus one
- * ({@link EBikeDemo#MAXX} and {@link EBikeDemo#MAXY}).
- * @author David J. Barnes and Michael Kölling
+ * This class represents a location in the city. The city is like a grid,
+ * so every location has an x coordinate (the row) and a y coordinate
+ * (the column). Both coordinates must be between 0 and the size of the
+ * grid minus one ({@link EBikeDemo#MAXX} and {@link EBikeDemo#MAXY}).
  * @author DP classes
- * @author Alvaro
+ * @author Los Especuladores
  * @version 2026.11.10
  */
 public class Location
@@ -13,11 +12,19 @@ public class Location
     private int x;
     private int y;
 
+
+
+
+    //=====================================CONSTRUCTOR=====================================
+
+
+
+
     /**
      * Model a location in the city.
-     * @param x The x coordinate (row). Must be between 0 and {@link EBikeDemo#MAXX} - 1.
-     * @param y The y coordinate (column). Must be between 0 and {@link EBikeDemo#MAXY} - 1.
-     * @throws IllegalArgumentException If a coordinate is out of the grid.
+     * @param x The x coordinate. Must be non-negative and lower than {@link EBikeDemo#MAXX}.
+     * @param y The y coordinate. Must be non-negative and lower than {@link EBikeDemo#MAXY}.
+     * @throws IllegalArgumentException If a coordinate is negative or out of the grid.
      */
     public Location(int x, int y)
     {
@@ -27,16 +34,36 @@ public class Location
         this.y = y;
     }
 
+
+
+
+
+
+
+
+
+
+
+    //===================================REQUIRED METHODS===================================
+
+
+
+
+
+
+
+
+
+
+
+
+
     /**
-     * Generates the next location to visit on the way from this location
-     * to the destination. In each step, 1 is added to or subtracted from
-     * every coordinate that is still different from the destination one,
-     * so the movement is diagonal until one coordinate matches, and then
-     * straight along the other one.
+     * Generates the next location to visit in a direct line (Manhattan-style diagonal/straight move)
+     * from this location to the destination.
      * @param destination The {@link Location} we want to get to.
-     * @return The next {@link Location} one step closer to the destination.
-     * Returns a location equal to the destination if this location is
-     * already the destination.
+     * @return The next {@link Location} one step closer to the destination. Returns the destination
+     * if this location is already the destination.
      * @throws IllegalArgumentException If the destination is null.
      */
     public Location nextLocation(Location destination)
@@ -64,12 +91,19 @@ public class Location
         return new Location(nextX, nextY);
     }
 
+
+
+
+
+
+
+
+
     /**
-     * Determines the number of steps required to get from here to the
-     * destination. It is the maximum of the absolute differences between
-     * the x coordinates and the y coordinates of both locations.
+     * Determines the number of movements required to get from here to the destination,
+     * using the Chebyshev distance (maximum of the absolute differences of the coordinates).
      * @param destination The required destination {@link Location}.
-     * @return The number of steps to get to the destination.
+     * @return The number of movement steps.
      * @throws IllegalArgumentException If the destination is null.
      */
     public int distance(Location destination)
@@ -95,8 +129,23 @@ public class Location
         }
     }
 
+
+
+
+
+
+
+
+    //===============================GETTERS AND SETTERS OF X===============================
+
+
+
+
+
+
+
+
     /**
-     * Gets the x coordinate (row) of the location.
      * @return The x coordinate.
      */
     public int getX()
@@ -105,9 +154,9 @@ public class Location
     }
 
     /**
-     * Sets the x coordinate (row) of the location.
-     * @param x The new x coordinate. Must be between 0 and {@link EBikeDemo#MAXX} - 1.
-     * @throws IllegalArgumentException If the coordinate is out of the grid.
+     * Changes the x coordinate (row) of the location.
+     * @param x The new x coordinate. It must be between 0 and {@link EBikeDemo#MAXX} - 1.
+     * @throws IllegalArgumentException If the coordinate is outside the grid.
      */
     public void setX(int x)
     {
@@ -115,8 +164,20 @@ public class Location
         this.x = x;
     }
 
+
+
+
+
+
+
+
+
+
+    //===============================GETTERS AND SETTERS OF Y===============================
+
+
+
     /**
-     * Gets the y coordinate (column) of the location.
      * @return The y coordinate.
      */
     public int getY()
@@ -125,9 +186,9 @@ public class Location
     }
 
     /**
-     * Sets the y coordinate (column) of the location.
-     * @param y The new y coordinate. Must be between 0 and {@link EBikeDemo#MAXY} - 1.
-     * @throws IllegalArgumentException If the coordinate is out of the grid.
+     * Changes the y coordinate (column) of the location.
+     * @param y The new y coordinate. It must be between 0 and {@link EBikeDemo#MAXY} - 1.
+     * @throws IllegalArgumentException If the coordinate is outside the grid.
      */
     public void setY(int y)
     {
@@ -135,11 +196,22 @@ public class Location
         this.y = y;
     }
 
+
+
+
+
+
+
+    //=======================================CHECKERS=======================================
+
+
+
+
     /**
-     * Checks that an x coordinate is inside the grid.
-     * It is only for internal use of the class (constructor and setX).
-     * @param x The x coordinate to check.
-     * @throws IllegalArgumentException If the coordinate is out of the grid.
+     * Checks that the x coordinate is inside the grid.
+     * We only use it inside this class (in the constructor and in setX).
+     * @param x The x coordinate that we want to check.
+     * @throws IllegalArgumentException If the coordinate is outside the grid.
      */
     private void checkX(int x)
     {
@@ -150,10 +222,10 @@ public class Location
     }
 
     /**
-     * Checks that a y coordinate is inside the grid.
-     * It is only for internal use of the class (constructor and setY).
-     * @param y The y coordinate to check.
-     * @throws IllegalArgumentException If the coordinate is out of the grid.
+     * Checks that the y coordinate is inside the grid.
+     * We only use it inside this class (in the constructor and in setY).
+     * @param y The y coordinate that we want to check.
+     * @throws IllegalArgumentException If the coordinate is outside the grid.
      */
     private void checkY(int y)
     {
@@ -163,12 +235,24 @@ public class Location
         }
     }
 
+
+
+
+
+
+
+
+    //============================EQUALS, HASHCODE AND TOSTRING============================
+
+
+
+
+
+
     /**
-     * Checks whether this location is equal to another object.
-     * Two locations are considered equal if they have the same x and y coordinates.
-     * @param obj The object to compare with this location.
-     * @return true if obj is a {@link Location} with the same x and y
-     * coordinates, false otherwise.
+     * Implement content equality for locations.
+     * @param obj The object to compare with.
+     * @return {@code true} if the other object is a {@link Location} and has the same x and y coordinates, {@code false} otherwise.
      */
     @Override
     public boolean equals(Object obj)
@@ -184,10 +268,9 @@ public class Location
     }
 
     /**
-     * Returns a hash code for this location, based on its x and y coordinates
-     * (the same fields used in {@link #equals(Object)}).
-     * Hashcode technique taken from Effective Java by Joshua Bloch.
-     * @return The hash code of the location.
+     * Generates a hash code for the location.
+     * It uses the 7/3/5 technique explained in unit 5, with the x and y coordinates.
+     * @return A hashcode for the location.
      */
     @Override
     public int hashCode()
@@ -199,9 +282,7 @@ public class Location
     }
 
     /**
-     * Returns a string representation of the location in the format "x-y",
-     * as required by the simulation output.
-     * @return A string representation of the location.
+     * @return A string representation of the location in the format "x-y".
      */
     @Override
     public String toString()

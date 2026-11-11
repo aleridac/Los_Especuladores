@@ -5,9 +5,10 @@ import java.util.*;
  * at their target location, in ascending order. The bikes that have not
  * arrived go after the ones that have arrived. In case of a tie, they are
  * compared by their ID in ascending order (using {@link ComparatorEBIdBike}).
- * Once a bike arrives, it stays at its target location and its idle count
- * increases by one in each step, so between two bikes that have arrived,
- * the one with the higher idle count is the one that arrived first.
+ * A bike has arrived if it is at its target location. Once a bike arrives,
+ * it stays there and its idle count increases by one in each step, so
+ * between two bikes that have arrived, the one with the higher idle count
+ * is the one that arrived first.
  * It is used to show the bikes in the final information of the simulation.
  * @author Alvaro
  * @version 2026.11.11
@@ -24,7 +25,9 @@ public class ComparatorEBArrivingStep implements Comparator<ElectricBike>
     @Override
     public int compare(ElectricBike eb1, ElectricBike eb2)
     {
-        if(eb1.hasArrived() && eb2.hasArrived()) {
+        boolean arrived1 = eb1.getLocation().equals(eb1.getTargetLocation());
+        boolean arrived2 = eb2.getLocation().equals(eb2.getTargetLocation());
+        if(arrived1 && arrived2) {
             if(eb1.getIdleCount() == eb2.getIdleCount()) {
                 return new ComparatorEBIdBike().compare(eb1, eb2);
             }
@@ -35,10 +38,10 @@ public class ComparatorEBArrivingStep implements Comparator<ElectricBike>
                 return 1;
             }
         }
-        else if(eb1.hasArrived()) {
+        else if(arrived1) {
             return -1;
         }
-        else if(eb2.hasArrived()) {
+        else if(arrived2) {
             return 1;
         }
         else {

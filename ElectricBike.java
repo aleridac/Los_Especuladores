@@ -2,14 +2,10 @@ import java.util.List;
 import java.util.ArrayList;
 
 /**
- * Model the common elements of an Electric Bike (EB) that operates within
- * the simulation, moving towards a target location and recharging in the
- * {@link BikeStation}s of its {@link EBCompany} when it does not have enough
- * battery to get there. The bike consumes {@link EBCompany#MOVINGCOST} wh
- * for each step it moves.
- * @author David J. Barnes and Michael Kölling
+ * Model the common elements of an Electric bike (EB) that operates
+ * within the simulation, moving towards a target and potentially recharging.
  * @author DP classes
- * @author Pablo
+ * @author Los Especuladores
  * @version 2026.11.11
  */
 public class ElectricBike
@@ -27,17 +23,27 @@ public class ElectricBike
     private float chargesCost;
     private List<Dock> docks;
 
+
+
+
+
+
+    //=====================================CONSTRUCTOR=====================================
+
+
+
+
+
+
     /**
      * Constructor of class ElectricBike.
-     * The bike starts with the battery full, without recharges and without
-     * a recharging location (the route is calculated with {@link #calculateRoute()}).
      * @param company The EB's operating company. Must not be null.
      * @param location The EB's starting {@link Location}. Must not be null.
      * @param targetLocation The EB's final destination {@link Location}. Must not be null.
-     * @param id The identifier of the bike. Must not be null or empty.
-     * @param batteryCapacity The maximum capacity of the battery in wh. Must be greater than 0.
+     * @param id The identificator of the bike.
+     * @param batteryCapacity The maximum capacity of the battery.
      * @throws NullPointerException If company, location, or targetLocation is null.
-     * @throws IllegalArgumentException If the ID is null or empty or the capacity is not greater than 0.
+     * @throws IllegalArgumentException If the id is null or empty, or the capacity is not greater than 0.
      */
     public ElectricBike(EBCompany company, Location location, Location targetLocation, String id, int batteryCapacity)
     {
@@ -60,11 +66,22 @@ public class ElectricBike
         this.docks = new ArrayList<>();
     }
 
+
+
+
+
+
+    //===================================REQUIRED METHODS===================================
+
+
+
+
+
+
     /**
-     * Calculates the route of the bike. If it has enough battery to reach
-     * its target location, it goes directly there (no recharging location).
-     * If not, it looks for the best {@link BikeStation} to recharge
-     * (see {@link #calculateRechargingPosition()}).
+     * Calculates the optimal route for the bike.
+     * If there isn't enough battery to reach the target, it attempts to find an intermediate
+     * {@link BikeStation} and sets it as the {@code rechargingLocation}.
      */
     public void calculateRoute()
     {
@@ -77,9 +94,8 @@ public class ElectricBike
     }
 
     /**
-     * Gets a string representation of the planned route, including the
-     * recharging stop if there is one.
-     * @return A string showing the route: currentLocation -> [rechargingLocation ->] targetLocation.
+     * Gets a string representation of the planned route, including the recharging stop if one exists.
+     * @return A string showing the route: {@code currentLocation -> [rechargingLocation ->] targetLocation}.
      */
     public String getStringRoute()
     {
@@ -91,10 +107,8 @@ public class ElectricBike
     }
 
     /**
-     * Checks if the current battery level is enough to reach the target
-     * location, knowing that the bike consumes {@link EBCompany#MOVINGCOST}
-     * wh for each step.
-     * @return true if the bike has enough battery to reach its target location, false otherwise.
+     * Checks if the current battery level is sufficient to cover a given distance.
+     * @return true if the battery is enough to reach the target location, false otherwise.
      */
     public boolean enoughBattery()
     {
@@ -102,14 +116,9 @@ public class ElectricBike
     }
 
     /**
-     * Determines the best {@link BikeStation} of the company to recharge and
-     * sets its location as the recharging location. The best station is the
-     * one with the lowest sum of the distance from the current location to
-     * the station and the distance from the station to the target location,
-     * among the stations that the bike can reach with its current battery.
-     * The station where the bike already is, is not considered. In case of
-     * a tie, the first station analysed is selected. If there is no station
-     * the bike can reach, the recharging location is set to null.
+     * Determines the optimal intermediate {@link BikeStation} to visit for recharging
+     * if the bike cannot reach the final target directly.
+     * Sets {@code rechargingLocation} to the chosen station's location.
      */
     public void calculateRechargingPosition()
     {
@@ -136,7 +145,7 @@ public class ElectricBike
     }
 
     /**
-     * Gets the distance from the current location to the final target location.
+     * Get the Manhattan-like distance to the final target location from the current location.
      * @return The distance to the target location.
      */
     public int distanceToTheTargetLocation()
@@ -145,14 +154,10 @@ public class ElectricBike
     }
 
     /**
-     * Recharges the bike in the first free {@link Dock} of the {@link BikeStation}
-     * where it is. The battery is charged to its full capacity, the dock is
-     * stored in the list of docks used, the cost, wh and number of recharges
-     * are updated, the bike is registered in the dock and, finally, the route
-     * is calculated again. A message with the recharge is shown.
-     * @param step The current step of the simulation (for the message).
-     * @throws IllegalStateException If the bike is not at a station of its
-     * company or the station has no free dock.
+     * Simulates the recharging process when the bike arrives at a {@code rechargingLocation}.
+     * The battery is charged to full capacity, the cost is calculated, and the route is recalculated.
+     * @param step The current step of the simulation (for the output message).
+     * @throws IllegalStateException If the bike is not at a bike station or the station has no free dock.
      */
     public void recharge(int step)
     {
@@ -187,7 +192,7 @@ public class ElectricBike
     }
 
     /**
-     * Adds the cost of a recharge to the total cost of the recharges.
+     * Adds a cost amount to the total charges cost.
      * @param cost The cost of the recharge in €. Must not be negative.
      * @throws IllegalArgumentException If the cost is negative.
      */
@@ -198,18 +203,8 @@ public class ElectricBike
     }
 
     /**
-     * Carries out a single step of the simulation:
-     * <ul>
-     * <li>If the bike is already at its target location, or it cannot go
-     * anywhere (not enough battery and no station to recharge), or it is
-     * waiting at a station without free docks, it stays where it is and its
-     * idle count is incremented.</li>
-     * <li>Otherwise, it moves one step towards its recharging location (if it
-     * has one) or towards its target location. If it reaches its target
-     * location, it shows a message (from then on it stays there, so its idle
-     * count tells how many steps ago it arrived). If it reaches its recharging
-     * location and the station has a free dock, it recharges.</li>
-     * </ul>
+     * Carries out a single step of the bike's actions.
+     * Moves one step towards the target (recharging or final) or stays idle.
      * @param step The current step of the simulation.
      */
     public void act(int step)
@@ -234,8 +229,7 @@ public class ElectricBike
     }
 
     /**
-     * Reduces the battery level by the cost of one movement step
-     * (defined in {@link EBCompany#MOVINGCOST}).
+     * Reduces the battery level by the cost of one movement step (defined in {@link EBCompany#MOVINGCOST}).
      * Ensures the battery level does not go below zero.
      */
     public void reduceBatteryLevel()
@@ -246,31 +240,20 @@ public class ElectricBike
         }
     }
 
-    /**
-     * Checks if the bike has arrived at its target location, that is, if it
-     * is at its target location (once it arrives, it does not move anymore).
-     * @return true if the bike has arrived, false otherwise.
-     */
-    public boolean hasArrived()
-    {
-        return location.equals(targetLocation);
-    }
+
+
+
+
+
+    //=================================GETTERS AND SETTERS=================================
+
+
+
+
+
 
     /**
-     * Returns the information of the bike after a step of the simulation,
-     * with the format required by the simulation output.
-     * Example: (step: 0 - ElectricBike: EBCC0, 15wh, 10wh, 0, 0.0€, 0, 10-12, 10-11, 1-1)
-     * @param step The step of the simulation.
-     * @return A string with the step and the information of the bike.
-     */
-    public String getStepInfo(int step)
-    {
-        return "(step: " + step + " - " + getDetails() + ")";
-    }
-
-    /**
-     * Gets the identifier of the bike.
-     * @return The ID of the electric bike.
+     * @return The id of the electric bike.
      */
     public String getIdBike()
     {
@@ -278,8 +261,8 @@ public class ElectricBike
     }
 
     /**
-     * Sets the identifier of the bike.
-     * @param idBike The new ID of the bike. Must not be null or empty.
+     * Changes the identifier of the bike.
+     * @param idBike The new ID of the bike. It cannot be null or empty.
      * @throws IllegalArgumentException If the ID is null or empty.
      */
     public void setIdBike(String idBike)
@@ -289,7 +272,7 @@ public class ElectricBike
     }
 
     /**
-     * Gets the company the bike is subscribed to.
+     * Returns the company of the bike.
      * @return The company of the bike.
      */
     public EBCompany getCompany()
@@ -298,8 +281,8 @@ public class ElectricBike
     }
 
     /**
-     * Sets the company the bike is subscribed to.
-     * @param company The new company. Must not be null.
+     * Changes the company of the bike.
+     * @param company The new company. It cannot be null.
      * @throws NullPointerException If the company is null.
      */
     public void setCompany(EBCompany company)
@@ -309,8 +292,8 @@ public class ElectricBike
     }
 
     /**
-     * Gets the current location of the bike.
-     * @return The current location.
+     * Returns the location where the bike is now.
+     * @return The location of the bike.
      */
     public Location getLocation()
     {
@@ -318,9 +301,9 @@ public class ElectricBike
     }
 
     /**
-     * Sets the current location of the bike.
+     * Set the current location.
      * @param location Where it is. Must not be null.
-     * @throws NullPointerException If the location is null.
+     * @throws NullPointerException If location is null.
      */
     public void setLocation(Location location)
     {
@@ -329,7 +312,7 @@ public class ElectricBike
     }
 
     /**
-     * Gets the final target location of the bike.
+     * Get the final target location.
      * @return Where this bike is ultimately headed.
      */
     public Location getTargetLocation()
@@ -338,9 +321,9 @@ public class ElectricBike
     }
 
     /**
-     * Sets the final target location of the bike.
+     * Set the required final target location.
      * @param location Where to go. Must not be null.
-     * @throws NullPointerException If the location is null.
+     * @throws NullPointerException If location is null.
      */
     public void setTargetLocation(Location location)
     {
@@ -349,9 +332,8 @@ public class ElectricBike
     }
 
     /**
-     * Gets the temporary recharging location of the bike.
-     * @return The {@link Location} of the next {@link BikeStation} to visit,
-     * or null if no recharge is planned.
+     * Get the temporary recharging location.
+     * @return The {@link Location} of the next {@link BikeStation} to visit, or null if no recharge is planned.
      */
     public Location getRechargingLocation()
     {
@@ -359,9 +341,9 @@ public class ElectricBike
     }
 
     /**
-     * Sets the temporary recharging location of the bike.
-     * @param rechargingLocation The location of the next station to visit,
-     * or null if no recharge is planned.
+     * Changes the location of the station where the bike is going to recharge.
+     * @param rechargingLocation The location of the next station, or null
+     * if the bike does not need to recharge.
      */
     public void setRechargingLocation(Location rechargingLocation)
     {
@@ -369,7 +351,7 @@ public class ElectricBike
     }
 
     /**
-     * Gets the number of steps the bike has been idle.
+     * Returns how many steps the bike has been without moving.
      * @return The idle count.
      */
     public int getIdleCount()
@@ -378,8 +360,8 @@ public class ElectricBike
     }
 
     /**
-     * Sets the number of steps the bike has been idle.
-     * @param idleCount The new idle count. Must not be negative.
+     * Changes how many steps the bike has been without moving.
+     * @param idleCount The new idle count. It cannot be negative.
      * @throws IllegalArgumentException If the idle count is negative.
      */
     public void setIdleCount(int idleCount)
@@ -389,8 +371,8 @@ public class ElectricBike
     }
 
     /**
-     * Gets the maximum capacity of the battery.
-     * @return The battery capacity in wh.
+     * Returns the maximum capacity of the battery.
+     * @return The capacity of the battery in wh.
      */
     public int getBatteryCapacity()
     {
@@ -398,9 +380,9 @@ public class ElectricBike
     }
 
     /**
-     * Sets the maximum capacity of the battery.
-     * @param batteryCapacity The new capacity in wh. Must be greater than 0
-     * and not lower than the current battery level.
+     * Changes the maximum capacity of the battery.
+     * @param batteryCapacity The new capacity in wh. It must be bigger than 0
+     * and it cannot be smaller than the battery level.
      * @throws IllegalArgumentException If the capacity is not valid.
      */
     public void setBatteryCapacity(int batteryCapacity)
@@ -414,7 +396,7 @@ public class ElectricBike
     }
 
     /**
-     * Gets the current level of the battery.
+     * Returns the energy that the battery has now.
      * @return The battery level in wh.
      */
     public int getBatteryLevel()
@@ -423,8 +405,8 @@ public class ElectricBike
     }
 
     /**
-     * Sets the current level of the battery.
-     * @param batteryLevel The new level in wh. Must be between 0 and the battery capacity.
+     * Changes the energy that the battery has now.
+     * @param batteryLevel The new level in wh. It must be between 0 and the capacity of the battery.
      * @throws IllegalArgumentException If the level is not valid.
      */
     public void setBatteryLevel(int batteryLevel)
@@ -437,7 +419,7 @@ public class ElectricBike
     }
 
     /**
-     * Gets the total energy charged in the bike.
+     * Returns the total energy that the bike has charged.
      * @return The total wh charged.
      */
     public int getWsCharged()
@@ -446,8 +428,8 @@ public class ElectricBike
     }
 
     /**
-     * Sets the total energy charged in the bike.
-     * @param wsCharged The new total wh charged. Must not be negative.
+     * Changes the total energy that the bike has charged.
+     * @param wsCharged The new total of wh charged. It cannot be negative.
      * @throws IllegalArgumentException If the value is negative.
      */
     public void setWsCharged(int wsCharged)
@@ -457,7 +439,7 @@ public class ElectricBike
     }
 
     /**
-     * Gets the number of recharges performed by the bike.
+     * Returns how many times the bike has recharged.
      * @return The number of recharges.
      */
     public int getChargesCount()
@@ -466,8 +448,8 @@ public class ElectricBike
     }
 
     /**
-     * Sets the number of recharges performed by the bike.
-     * @param chargesCount The new number of recharges. Must not be negative.
+     * Changes how many times the bike has recharged.
+     * @param chargesCount The new number of recharges. It cannot be negative.
      * @throws IllegalArgumentException If the value is negative.
      */
     public void setChargesCount(int chargesCount)
@@ -477,8 +459,8 @@ public class ElectricBike
     }
 
     /**
-     * Gets the total cost of the recharges of the bike.
-     * @return The total cost in €.
+     * Returns the total price of all the recharges of the bike.
+     * @return The total price in €.
      */
     public float getChargesCost()
     {
@@ -486,9 +468,9 @@ public class ElectricBike
     }
 
     /**
-     * Sets the total cost of the recharges of the bike.
-     * @param chargesCost The new total cost in €. Must not be negative.
-     * @throws IllegalArgumentException If the cost is negative.
+     * Changes the total price of all the recharges of the bike.
+     * @param chargesCost The new total price in €. It cannot be negative.
+     * @throws IllegalArgumentException If the price is negative.
      */
     public void setChargesCost(float chargesCost)
     {
@@ -497,10 +479,10 @@ public class ElectricBike
     }
 
     /**
-     * Gets the docks where the bike has recharged, in the order in which it
-     * recharged. A copy of the list is returned, so the internal list of
-     * the bike cannot be modified from outside.
-     * @return A copy of the list of docks used.
+     * Returns the docks where the bike has recharged, in the same order of
+     * the recharges. It returns a copy of the list, so nobody can change the
+     * list of the bike from outside the class.
+     * @return A copy of the list of docks.
      */
     public List<Dock> getDocks()
     {
@@ -508,10 +490,10 @@ public class ElectricBike
     }
 
     /**
-     * Sets the docks where the bike has recharged. The bike stores a copy
-     * of the list received. The list is only stored if it has no null docks.
-     * @param docks The new list of docks. Must not be null nor contain null docks.
-     * @throws IllegalArgumentException If the list is null or contains a null dock.
+     * Changes the docks where the bike has recharged. The bike saves a copy
+     * of the list, and only if the list has no null docks.
+     * @param docks The new list of docks. It cannot be null or have null docks.
+     * @throws IllegalArgumentException If the list is null or it has a null dock.
      */
     public void setDocks(List<Dock> docks)
     {
@@ -521,11 +503,23 @@ public class ElectricBike
         this.docks = new ArrayList<>(docks);
     }
 
+
+
+
+
+
+    //==================================AUXILIARY METHODS==================================
+
+
+
+
+
+
     /**
-     * Gets the location the bike has to move to in this step: its recharging
-     * location if it has one, its target location if it has enough battery
-     * to get there, or null if it cannot go anywhere.
-     * @return The location to move to, or null if the bike cannot move.
+     * Returns the location where the bike has to go in this step: its
+     * recharging location if it has one, its target location if it has
+     * enough battery to arrive, or null if it cannot go anywhere.
+     * @return The location where the bike has to go, or null if it cannot move.
      */
     private Location getNextDestination()
     {
@@ -543,27 +537,22 @@ public class ElectricBike
         }
     }
 
-    /**
-     * Gets the information of the bike, without parentheses, shared by
-     * {@link #toString()} and {@link #getStepInfo(int)}. The recharging
-     * location only appears if the bike has one.
-     * @return The information of the bike.
-     */
-    private String getDetails()
-    {
-        String details = "ElectricBike: " + idBike + ", " + batteryCapacity + "wh, "
-                + batteryLevel + "wh, " + chargesCount + ", " + chargesCost + "€, "
-                + idleCount + ", " + location + ", ";
-        if(rechargingLocation != null) {
-            details += rechargingLocation + ", ";
-        }
-        return details + targetLocation;
-    }
+
+
+
+
+
+    //=======================================CHECKERS=======================================
+
+
+
+
+
 
     /**
      * Checks that an object is not null.
-     * It is only for internal use of the class (constructor and setters).
-     * @param object The object to check.
+     * We only use it inside this class (in the constructor and in the setters).
+     * @param object The object that we want to check.
      * @param name The name of the object, for the error message.
      * @throws NullPointerException If the object is null.
      */
@@ -575,9 +564,9 @@ public class ElectricBike
     }
 
     /**
-     * Checks that a bike identifier is valid.
-     * It is only for internal use of the class (constructor and setIdBike).
-     * @param id The identifier to check.
+     * Checks that the identifier of the bike is valid.
+     * We only use it inside this class (in the constructor and in setIdBike).
+     * @param id The identifier that we want to check.
      * @throws IllegalArgumentException If the identifier is null or empty.
      */
     private void checkId(String id)
@@ -588,10 +577,10 @@ public class ElectricBike
     }
 
     /**
-     * Checks that a battery capacity is valid.
-     * It is only for internal use of the class (constructor and setBatteryCapacity).
-     * @param capacity The capacity to check.
-     * @throws IllegalArgumentException If the capacity is not greater than 0.
+     * Checks that the capacity of the battery is valid.
+     * We only use it inside this class (in the constructor and in setBatteryCapacity).
+     * @param capacity The capacity that we want to check.
+     * @throws IllegalArgumentException If the capacity is not bigger than 0.
      */
     private void checkBatteryCapacity(int capacity)
     {
@@ -602,11 +591,11 @@ public class ElectricBike
     }
 
     /**
-     * Checks that an integer value is not negative.
-     * It is only for internal use of the class (setters).
-     * @param value The value to check.
-     * @param name The name of the value, for the error message.
-     * @throws IllegalArgumentException If the value is negative.
+     * Checks that an integer number is not negative.
+     * We only use it inside this class (in the setters).
+     * @param value The number that we want to check.
+     * @param name The name of the number, for the error message.
+     * @throws IllegalArgumentException If the number is negative.
      */
     private void checkNotNegative(int value, String name)
     {
@@ -616,11 +605,11 @@ public class ElectricBike
     }
 
     /**
-     * Checks that a decimal value is not negative.
-     * It is only for internal use of the class (setChargesCost and incrementChargesCost).
-     * @param value The value to check.
-     * @param name The name of the value, for the error message.
-     * @throws IllegalArgumentException If the value is negative.
+     * Checks that a decimal number is not negative.
+     * We only use it inside this class (in setChargesCost and in incrementChargesCost).
+     * @param value The number that we want to check.
+     * @param name The name of the number, for the error message.
+     * @throws IllegalArgumentException If the number is negative.
      */
     private void checkNotNegative(float value, String name)
     {
@@ -629,11 +618,23 @@ public class ElectricBike
         }
     }
 
+
+
+
+
+
+    //============================EQUALS, HASHCODE AND TOSTRING============================
+
+
+
+
+
+
     /**
-     * Checks whether this bike is equal to another object.
-     * Two bikes are considered equal if they have the same idBike.
-     * @param obj The object to compare with this bike.
-     * @return true if obj is an {@link ElectricBike} with the same idBike, false otherwise.
+     * Compares this bike with another object. Two bikes are equal if they
+     * have the same idBike.
+     * @param obj The object that we want to compare with this bike.
+     * @return true if obj is an {@link ElectricBike} with the same idBike, false if not.
      */
     @Override
     public boolean equals(Object obj)
@@ -649,8 +650,8 @@ public class ElectricBike
     }
 
     /**
-     * Returns a hash code for this bike, based on its idBike
-     * (the same field used in {@link #equals(Object)}).
+     * Returns a hash code for this bike. It uses the idBike, because it is
+     * the same field that we use in {@link #equals(Object)}.
      * Hashcode technique taken from Effective Java by Joshua Bloch.
      * @return The hash code of the bike.
      */
@@ -663,16 +664,18 @@ public class ElectricBike
     }
 
     /**
-     * Returns a string representation of the electric bike with the format
-     * required by the simulation output: ID, battery capacity, battery level,
-     * number of recharges, cost of the recharges, idle count, location,
-     * recharging location (only if it has one) and target location.
-     * Example: (ElectricBike: EBCC0, 15wh, 15wh, 0, 0.0€, 0, 10-13, 10-11, 1-1)
-     * @return A string representation of the bike.
+     * Returns a detailed string representation of the electric bike.
+     * @return A string containing the bike's name, plate, battery info, charge counts, costs, idle count, and route.
      */
     @Override
     public String toString()
     {
-        return "(" + getDetails() + ")";
+        String result = "(ElectricBike: " + idBike + ", " + batteryCapacity + "wh, "
+                + batteryLevel + "wh, " + chargesCount + ", " + chargesCost + "€, "
+                + idleCount + ", " + location + ", ";
+        if(rechargingLocation != null) {
+            result += rechargingLocation + ", ";
+        }
+        return result + targetLocation + ")";
     }
 }

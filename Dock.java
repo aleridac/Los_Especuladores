@@ -2,12 +2,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Model a dock unit within a {@link BikeStation}.
- * It tracks its charging capabilities (speed and fee), whether it is free,
- * the electric bikes it has recharged and the amount of money collected.
- * @author David J. Barnes and Michael Kölling
+ * This class represents a dock of a {@link BikeStation}. A dock is the place
+ * where the electric bikes are recharged. Each dock has a charging speed,
+ * a price (fee), it can be free or not, and it saves the bikes that it has
+ * recharged and the money that it has collected.
  * @author DP classes
- * @author Alvaro
+ * @author Los Especuladores
  * @version 2026.11.10
  */
 public class Dock
@@ -19,9 +19,17 @@ public class Dock
     private float amountCollected;
     private boolean free;
 
+
+
+
+
+    //=====================================CONSTRUCTOR=====================================
+
+
+
+
     /**
      * Constructor for objects of class Dock.
-     * The dock starts free, without recharged bikes and without money collected.
      * @param id The unique identifier of the dock (e.g., CC01_02). Must not be null or empty.
      * @param speed The charging speed of the dock in wh. Must be greater than 0.
      * @param fee The price in € / wh of the charge. Must not be negative.
@@ -40,13 +48,29 @@ public class Dock
         this.free = true;
     }
 
+
+
+
+
+
+
+
+    //===================================REQUIRED METHODS===================================
+
+
+
+
+
+
+
+
+
     /**
-     * Recharges an {@link ElectricBike} in this dock.
-     * The bike is added to the list of recharged bikes and the cost of the
-     * charge (wh charged * charging fee) is added to the amount collected.
+     * Simulates the charging process for an {@link ElectricBike}.
+     * Increases the amount collected and registers the bike as recharged.
      * @param bike The electric bike to be recharged. Must not be null.
      * @param whToCharge The amount of energy (wh) to charge the bike with. Must not be negative.
-     * @return The cost of the charge in €.
+     * @return The cost of the charging process.
      * @throws IllegalArgumentException If the bike is null or whToCharge is negative.
      */
     public float recharge(ElectricBike bike, int whToCharge)
@@ -62,9 +86,9 @@ public class Dock
     }
 
     /**
-     * Adds a bike to the list of bikes recharged in this dock.
-     * The bikes are kept in the order in which they were recharged.
-     * @param bike The electric bike recharged. Must not be null.
+     * Adds a bike to the list of bikes recharged in this dock. The bikes
+     * stay in the same order in which they were recharged.
+     * @param bike The electric bike that was recharged. It cannot be null.
      * @throws IllegalArgumentException If the bike is null.
      */
     public void addBikeRecharged(ElectricBike bike)
@@ -76,9 +100,9 @@ public class Dock
     }
 
     /**
-     * Updates the amount collected by the dock, adding the cost of a charge.
-     * @param cost The cost of the charge in €. Must not be negative.
-     * @throws IllegalArgumentException If the cost is negative.
+     * Updates the money collected by the dock. It adds the price of a charge.
+     * @param cost The price of the charge in €. It cannot be negative.
+     * @throws IllegalArgumentException If the price is negative.
      */
     public void updateAmountCollected(float cost)
     {
@@ -87,16 +111,28 @@ public class Dock
     }
 
     /**
-     * Gets the number of bikes that have been recharged in this dock.
-     * @return The total number of {@link ElectricBike}s recharged in this dock.
+     * @return The total number of {@link ElectricBike}s that have been recharged by this dock.
      */
     public int getNumerEVRecharged()
     {
         return bikesRecharged.size();
     }
 
+
+
+
+
+
+    //=================================GETTERS AND SETTERS=================================
+
+
+
+
+
+
+
     /**
-     * Gets the unique identifier of the dock.
+     * Returns the identifier of the dock.
      * @return The ID of the dock.
      */
     public String getIdDock()
@@ -105,8 +141,8 @@ public class Dock
     }
 
     /**
-     * Sets the unique identifier of the dock.
-     * @param idDock The new ID of the dock. Must not be null or empty.
+     * Changes the identifier of the dock.
+     * @param idDock The new ID of the dock. It cannot be null or empty.
      * @throws IllegalArgumentException If the ID is null or empty.
      */
     public void setIdDock(String idDock)
@@ -116,7 +152,7 @@ public class Dock
     }
 
     /**
-     * Gets the charging speed of the dock.
+     * Returns the charging speed of the dock.
      * @return The charging speed in wh.
      */
     public int getChargingSpeed()
@@ -125,9 +161,9 @@ public class Dock
     }
 
     /**
-     * Sets the charging speed of the dock.
-     * @param chargingSpeed The new charging speed in wh. Must be greater than 0.
-     * @throws IllegalArgumentException If the speed is not greater than 0.
+     * Changes the charging speed of the dock.
+     * @param chargingSpeed The new charging speed in wh. It must be bigger than 0.
+     * @throws IllegalArgumentException If the speed is not bigger than 0.
      */
     public void setChargingSpeed(int chargingSpeed)
     {
@@ -136,8 +172,8 @@ public class Dock
     }
 
     /**
-     * Gets the charging fee of the dock.
-     * @return The charging fee in € / wh.
+     * Returns the price (fee) of the dock.
+     * @return The fee in € / wh.
      */
     public float getChargingFee()
     {
@@ -145,8 +181,8 @@ public class Dock
     }
 
     /**
-     * Sets the charging fee of the dock.
-     * @param chargingFee The new charging fee in € / wh. Must not be negative.
+     * Changes the price (fee) of the dock.
+     * @param chargingFee The new fee in € / wh. It cannot be negative.
      * @throws IllegalArgumentException If the fee is negative.
      */
     public void setChargingFee(float chargingFee)
@@ -156,9 +192,9 @@ public class Dock
     }
 
     /**
-     * Gets the bikes that have been recharged in this dock, in the order
-     * in which they were recharged. A copy of the list is returned, so the
-     * internal list of the dock cannot be modified from outside.
+     * Returns the bikes that have been recharged in this dock, in the order
+     * in which they were recharged. It returns a copy of the list, so nobody
+     * can change the list of the dock from outside the class.
      * @return A copy of the list of recharged bikes.
      */
     public List<ElectricBike> getBikesRecharged()
@@ -167,9 +203,9 @@ public class Dock
     }
 
     /**
-     * Sets the bikes that have been recharged in this dock.
-     * The dock stores a copy of the list received.
-     * @param bikesRecharged The new list of recharged bikes. Must not be null.
+     * Changes the list of bikes recharged in this dock. The dock saves a
+     * copy of the list that it receives.
+     * @param bikesRecharged The new list of recharged bikes. It cannot be null.
      * @throws IllegalArgumentException If the list is null.
      */
     public void setBikesRecharged(List<ElectricBike> bikesRecharged)
@@ -181,8 +217,8 @@ public class Dock
     }
 
     /**
-     * Gets the total amount collected by the dock.
-     * @return The amount collected in €.
+     * Returns the total money collected by the dock.
+     * @return The money collected in €.
      */
     public float getAmountCollected()
     {
@@ -190,9 +226,9 @@ public class Dock
     }
 
     /**
-     * Sets the total amount collected by the dock.
-     * @param amountCollected The new amount collected in €. Must not be negative.
-     * @throws IllegalArgumentException If the amount is negative.
+     * Changes the total money collected by the dock.
+     * @param amountCollected The new money collected in €. It cannot be negative.
+     * @throws IllegalArgumentException If the money is negative.
      */
     public void setAmountCollected(float amountCollected)
     {
@@ -201,7 +237,7 @@ public class Dock
     }
 
     /**
-     * Checks if the dock is free.
+     * Says if the dock is free or not.
      * @return true if the dock is free, false if it is occupied.
      */
     public boolean isFree()
@@ -210,7 +246,7 @@ public class Dock
     }
 
     /**
-     * Sets the availability of the dock.
+     * Changes if the dock is free or occupied.
      * @param free true if the dock is free, false if it is occupied.
      */
     public void setFree(boolean free)
@@ -218,10 +254,23 @@ public class Dock
         this.free = free;
     }
 
+
+
+
+
+
+    //=======================================CHECKERS=======================================
+
+
+
+
+
+
+
     /**
-     * Checks that a dock identifier is valid.
-     * It is only for internal use of the class (constructor and setIdDock).
-     * @param id The identifier to check.
+     * Checks that the identifier of the dock is valid.
+     * We only use it inside this class (in the constructor and in setIdDock).
+     * @param id The identifier that we want to check.
      * @throws IllegalArgumentException If the identifier is null or empty.
      */
     private void checkId(String id)
@@ -232,10 +281,10 @@ public class Dock
     }
 
     /**
-     * Checks that a charging speed is valid.
-     * It is only for internal use of the class (constructor and setChargingSpeed).
-     * @param speed The charging speed to check.
-     * @throws IllegalArgumentException If the speed is not greater than 0.
+     * Checks that the charging speed is valid.
+     * We only use it inside this class (in the constructor and in setChargingSpeed).
+     * @param speed The charging speed that we want to check.
+     * @throws IllegalArgumentException If the speed is not bigger than 0.
      */
     private void checkChargingSpeed(int speed)
     {
@@ -246,9 +295,9 @@ public class Dock
     }
 
     /**
-     * Checks that a charging fee is valid.
-     * It is only for internal use of the class (constructor and setChargingFee).
-     * @param fee The charging fee to check.
+     * Checks that the fee is valid.
+     * We only use it inside this class (in the constructor and in setChargingFee).
+     * @param fee The fee that we want to check.
      * @throws IllegalArgumentException If the fee is negative.
      */
     private void checkChargingFee(float fee)
@@ -261,8 +310,8 @@ public class Dock
 
     /**
      * Checks that an amount of money is valid.
-     * It is only for internal use of the class (updateAmountCollected and setAmountCollected).
-     * @param amount The amount to check.
+     * We only use it inside this class (in updateAmountCollected and in setAmountCollected).
+     * @param amount The amount of money that we want to check.
      * @throws IllegalArgumentException If the amount is negative.
      */
     private void checkAmount(float amount)
@@ -273,11 +322,28 @@ public class Dock
         }
     }
 
+
+
+
+
+
+
+
+
+    //============================EQUALS, HASHCODE AND TOSTRING============================
+
+
+
+
+
+
+
+
     /**
-     * Checks whether this dock is equal to another object.
-     * Two docks are considered equal if they have the same idDock.
-     * @param obj The object to compare with this dock.
-     * @return true if obj is a {@link Dock} with the same idDock, false otherwise.
+     * Compares this dock with another object. Two docks are equal if they
+     * have the same idDock.
+     * @param obj The object that we want to compare with this dock.
+     * @return true if obj is a {@link Dock} with the same idDock, false if not.
      */
     @Override
     public boolean equals(Object obj)
@@ -293,8 +359,8 @@ public class Dock
     }
 
     /**
-     * Returns a hash code for this dock, based on its idDock
-     * (the same field used in {@link #equals(Object)}).
+     * Returns a hash code for this dock. It uses the idDock, because it is
+     * the same field that we use in {@link #equals(Object)}.
      * Hashcode technique taken from Effective Java by Joshua Bloch.
      * @return The hash code of the dock.
      */
@@ -307,10 +373,7 @@ public class Dock
     }
 
     /**
-     * Returns a string representation of the dock with the format required
-     * by the simulation output: ID, charging speed, charging fee, number of
-     * bikes recharged and amount collected.
-     * Example: (Dock: CC00_003, 80wh, 0.8€, 0, 0.0€)
+     * Returns a string representation of the dock, including its ID, speed, fee, and the number of EVs recharged.
      * @return A string representation of the dock.
      */
     @Override

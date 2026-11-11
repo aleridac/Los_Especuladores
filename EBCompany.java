@@ -4,29 +4,39 @@ import java.util.Iterator;
 import java.util.Collections;
 
 /**
- * Models the operation of an Electric Bike (EB) Company.
- * It manages a fleet of subscribed {@link ElectricBike}s and a network of
- * {@link BikeStation}s. The bikes are always kept sorted by their ID
- * (using {@link ComparatorEBIdBike}) and the stations by their ID
- * (using {@link ComparatorBikeStationId}), both in ascending order.
- * @author David J. Barnes and Michael Kölling
+ * This class represents the company of electric bikes (EB). The company
+ * has a group of {@link ElectricBike}s that are subscribed to it, and a
+ * group of {@link BikeStation}s that it controls. The bikes are always in
+ * order by their ID (we use {@link ComparatorEBIdBike}) and the stations
+ * are always in order by their ID too (we use {@link ComparatorBikeStationId}).
  * @author DP classes
- * @author Alejandro
+ * @author Los Especuladores
  * @version 2026.11.10
  */
 public class EBCompany
 {
-    /** Energy (wh) that a bike consumes for each step it moves. */
+    /** Energy (wh) that a bike uses in each step that it moves. */
     public static final int MOVINGCOST = 5;
 
     private String name;
     private List<ElectricBike> subscribedBikes;
     private List<BikeStation> stations;
 
+
+
+
+
+
+    //=====================================CONSTRUCTOR=====================================
+
+
+
+
+
+
     /**
-     * Constructor for objects of class EBCompany.
-     * The company is created without bikes and without stations.
-     * @param name The name of the company. Must not be null or empty.
+     * Constructor for objects of class EVCompany.
+     * @param name The name of the company.
      * @throws IllegalArgumentException If the name is null or empty.
      */
     public EBCompany(String name)
@@ -37,10 +47,21 @@ public class EBCompany
         this.stations = new ArrayList<>();
     }
 
+
+
+
+
+
+    //===================================REQUIRED METHODS===================================
+
+
+
+
+
+
     /**
-     * Adds an {@link ElectricBike} to the company's fleet. After adding it,
-     * the bikes are sorted again by their ID in ascending order.
-     * @param bike The electric bike to add. Must not be null and must not be already subscribed.
+     * Adds an {@link ElectricBike} to the company's fleet.
+     * @param bike The electric bike to add.
      * @throws IllegalArgumentException If the bike is null or it is already subscribed.
      */
     public void addElectricBike(ElectricBike bike)
@@ -51,9 +72,8 @@ public class EBCompany
     }
 
     /**
-     * Adds a {@link BikeStation} to the company's network. After adding it,
-     * the stations are sorted again by their ID in ascending order.
-     * @param station The bike station to add. Must not be null and must not be already in the company.
+     * Adds a {@link BikeStation} to the company's network.
+     * @param station The bike station to add.
      * @throws IllegalArgumentException If the station is null or it is already in the company.
      */
     public void addBikeStation(BikeStation station)
@@ -64,10 +84,9 @@ public class EBCompany
     }
 
     /**
-     * Returns the {@link BikeStation} of the company with the given ID.
-     * The search stops as soon as the station is found.
-     * @param id The ID of the station to find. Must not be null.
-     * @return The station with that ID, or null if there is no station with that ID.
+     * Retrieves a {@link BikeStation} by its unique ID.
+     * @param id The ID of the station to find.
+     * @return The {@link BikeStation} with the matching ID, or {@code null} if not found.
      * @throws IllegalArgumentException If the ID is null.
      */
     public BikeStation getBikeStation(String id)
@@ -87,10 +106,9 @@ public class EBCompany
     }
 
     /**
-     * Returns the {@link BikeStation} of the company that is at the given {@link Location}.
-     * The search stops as soon as the station is found.
-     * @param location The location of the station to find. Must not be null.
-     * @return The station at that location, or null if there is no station there.
+     * Retrieves a {@link BikeStation} by its {@link Location}.
+     * @param location The {@link Location} of the station to find.
+     * @return The {@link BikeStation} at the matching location, or {@code null} if not found.
      * @throws IllegalArgumentException If the location is null.
      */
     public BikeStation getBikeStation(Location location)
@@ -110,8 +128,8 @@ public class EBCompany
     }
 
     /**
-     * Gets the number of bikes subscribed to the company.
-     * @return The total number of subscribed {@link ElectricBike}s.
+     * Returns how many bikes are subscribed to the company.
+     * @return The number of subscribed {@link ElectricBike}s.
      */
     public int getNumberOfBikes()
     {
@@ -119,7 +137,6 @@ public class EBCompany
     }
 
     /**
-     * Gets the number of stations managed by the company.
      * @return The total number of managed {@link BikeStation}s.
      */
     public int getNumberOfStations()
@@ -128,8 +145,7 @@ public class EBCompany
     }
 
     /**
-     * Removes all the bikes and stations of the company,
-     * resetting it to an empty state. The name is kept.
+     * Clears all managed bikes and stations, resetting the company to an empty state.
      */
     public void reset()
     {
@@ -137,8 +153,20 @@ public class EBCompany
         stations.clear();
     }
 
+
+
+
+
+
+    //=================================GETTERS AND SETTERS=================================
+
+
+
+
+
+
     /**
-     * Gets the name of the company.
+     * Returns the name of the company.
      * @return The name of the company.
      */
     public String getName()
@@ -147,8 +175,8 @@ public class EBCompany
     }
 
     /**
-     * Sets the name of the company.
-     * @param name The new name of the company. Must not be null or empty.
+     * Changes the name of the company.
+     * @param name The new name of the company. It cannot be null or empty.
      * @throws IllegalArgumentException If the name is null or empty.
      */
     public void setName(String name)
@@ -158,9 +186,9 @@ public class EBCompany
     }
 
     /**
-     * Gets the bikes subscribed to the company, sorted by their ID.
-     * A copy of the list is returned, so the internal list of the company
-     * cannot be modified from outside.
+     * Returns the bikes subscribed to the company, in order by their ID.
+     * It returns a copy of the list, so nobody can change the list of the
+     * company from outside the class.
      * @return A copy of the list of subscribed bikes.
      */
     public List<ElectricBike> getSubscribedBikes()
@@ -169,14 +197,14 @@ public class EBCompany
     }
 
     /**
-     * Sets the bikes subscribed to the company. Every bike of the list is
-     * checked in the same way as in {@link #addElectricBike(ElectricBike)},
-     * and the list is only stored if all of them are valid. The company
-     * stores a copy of the list received, sorted by the ID of the bikes.
-     * @param subscribedBikes The new list of bikes. Must not be null and
-     * must not contain null or repeated bikes.
-     * @throws IllegalArgumentException If the list is null or it contains
-     * a null or repeated bike.
+     * Changes the bikes subscribed to the company. Each bike of the list is
+     * checked like in {@link #addElectricBike(ElectricBike)}, and the list
+     * is only saved if all the bikes are valid. The company saves a copy of
+     * the list, sorted by the ID of the bikes.
+     * @param subscribedBikes The new list of bikes. It cannot be null and it
+     * cannot have null bikes or repeated bikes.
+     * @throws IllegalArgumentException If the list is null or it has a null
+     * bike or a repeated bike.
      */
     public void setSubscribedBikes(List<ElectricBike> subscribedBikes)
     {
@@ -193,9 +221,9 @@ public class EBCompany
     }
 
     /**
-     * Gets the stations managed by the company, sorted by their ID.
-     * A copy of the list is returned, so the internal list of the company
-     * cannot be modified from outside.
+     * Returns the stations of the company, in order by their ID. It returns
+     * a copy of the list, so nobody can change the list of the company from
+     * outside the class.
      * @return A copy of the list of stations.
      */
     public List<BikeStation> getStations()
@@ -204,14 +232,14 @@ public class EBCompany
     }
 
     /**
-     * Sets the stations managed by the company. Every station of the list is
-     * checked in the same way as in {@link #addBikeStation(BikeStation)},
-     * and the list is only stored if all of them are valid. The company
-     * stores a copy of the list received, sorted by the ID of the stations.
-     * @param stations The new list of stations. Must not be null and
-     * must not contain null or repeated stations.
-     * @throws IllegalArgumentException If the list is null or it contains
-     * a null or repeated station.
+     * Changes the stations of the company. Each station of the list is
+     * checked like in {@link #addBikeStation(BikeStation)}, and the list is
+     * only saved if all the stations are valid. The company saves a copy of
+     * the list, sorted by the ID of the stations.
+     * @param stations The new list of stations. It cannot be null and it
+     * cannot have null stations or repeated stations.
+     * @throws IllegalArgumentException If the list is null or it has a null
+     * station or a repeated station.
      */
     public void setStations(List<BikeStation> stations)
     {
@@ -227,10 +255,22 @@ public class EBCompany
         this.stations = newStations;
     }
 
+
+
+
+
+
+    //=======================================CHECKERS=======================================
+
+
+
+
+
+
     /**
-     * Checks that a company name is valid.
-     * It is only for internal use of the class (constructor and setName).
-     * @param name The name to check.
+     * Checks that the name of the company is valid.
+     * We only use it inside this class (in the constructor and in setName).
+     * @param name The name that we want to check.
      * @throws IllegalArgumentException If the name is null or empty.
      */
     private void checkName(String name)
@@ -242,9 +282,9 @@ public class EBCompany
 
     /**
      * Checks that a bike can be added to a list of bikes of the company.
-     * It is only for internal use of the class (addElectricBike and setSubscribedBikes).
-     * @param bike The bike to check.
-     * @param list The list of bikes where the bike is going to be added.
+     * We only use it inside this class (in addElectricBike and in setSubscribedBikes).
+     * @param bike The bike that we want to check.
+     * @param list The list of bikes where we want to add the bike.
      * @throws IllegalArgumentException If the bike is null or it is already in the list.
      */
     private void checkBike(ElectricBike bike, List<ElectricBike> list)
@@ -260,9 +300,9 @@ public class EBCompany
 
     /**
      * Checks that a station can be added to a list of stations of the company.
-     * It is only for internal use of the class (addBikeStation and setStations).
-     * @param station The station to check.
-     * @param list The list of stations where the station is going to be added.
+     * We only use it inside this class (in addBikeStation and in setStations).
+     * @param station The station that we want to check.
+     * @param list The list of stations where we want to add the station.
      * @throws IllegalArgumentException If the station is null or it is already in the list.
      */
     private void checkStation(BikeStation station, List<BikeStation> list)
@@ -276,11 +316,23 @@ public class EBCompany
         }
     }
 
+
+
+
+
+
+    //============================EQUALS, HASHCODE AND TOSTRING============================
+
+
+
+
+
+
     /**
-     * Checks whether this company is equal to another object.
-     * Two companies are considered equal if they have the same name.
-     * @param obj The object to compare with this company.
-     * @return true if obj is an {@link EBCompany} with the same name, false otherwise.
+     * Compares this company with another object. Two companies are equal if
+     * they have the same name.
+     * @param obj The object that we want to compare with this company.
+     * @return true if obj is an {@link EBCompany} with the same name, false if not.
      */
     @Override
     public boolean equals(Object obj)
@@ -296,8 +348,8 @@ public class EBCompany
     }
 
     /**
-     * Returns a hash code for this company, based on its name
-     * (the same field used in {@link #equals(Object)}).
+     * Returns a hash code for this company. It uses the name, because it is
+     * the same field that we use in {@link #equals(Object)}.
      * Hashcode technique taken from Effective Java by Joshua Bloch.
      * @return The hash code of the company.
      */
@@ -310,10 +362,10 @@ public class EBCompany
     }
 
     /**
-     * Returns a string representation of the company: its name, the number
-     * of subscribed bikes and the number of stations.
+     * Returns the information of the company as a text: the name, the
+     * number of subscribed bikes and the number of stations.
      * Example: (EBCompany: EBBike Cáceres, 2, 4)
-     * @return A string representation of the company.
+     * @return The information of the company as a text.
      */
     @Override
     public String toString()

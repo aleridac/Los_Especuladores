@@ -4,13 +4,14 @@ import java.util.Iterator;
 import java.util.Collections;
 
 /**
- * Models a station for electric bikes in the city.
- * A bike station has a location and contains several {@link Dock} units
- * where the {@link ElectricBike}s can recharge. The docks are always kept
- * sorted by charging speed (descending), then by charging fee (ascending)
- * and then by ID (ascending), using {@link ComparatorDocksChargingSpeed}.
+ * This class represents a station for electric bikes in the city.
+ * A station has a location and some {@link Dock}s where the
+ * {@link ElectricBike} can recharge. The docks are always in order:
+ * first by charging speed (from the biggest to the smallest), then by fee
+ * (from the smallest to the biggest) and then by ID (in alphabetical
+ * order). For this we use {@link ComparatorDocksChargingSpeed}.
  * @author DP classes
- * @author Alvaro
+ * @author Los Especuladores
  * @version 2026.11.10
  */
 public class BikeStation
@@ -19,9 +20,20 @@ public class BikeStation
     private Location location;
     private List<Dock> docks;
 
+
+
+
+
+
+    //=====================================CONSTRUCTOR=====================================
+
+
+
+
+
+
     /**
      * Constructor for objects of class BikeStation.
-     * The station is created without docks.
      * @param id The unique identifier of the station (e.g., CC01). Must not be null or empty.
      * @param location The location of the station in the city. Must not be null.
      * @throws IllegalArgumentException If the ID is null or empty.
@@ -36,10 +48,21 @@ public class BikeStation
         this.docks = new ArrayList<>();
     }
 
+
+
+
+
+
+    //===================================REQUIRED METHODS===================================
+
+
+
+
+
+
     /**
-     * Adds a new {@link Dock} to the station. After adding it, the docks
-     * are sorted again so that they keep the order required.
-     * @param dock The new dock to add. Must not be null and must not be already in the station.
+     * Adds a new {@link Dock} to the station.
+     * @param dock The new Dock unit.
      * @throws IllegalArgumentException If the dock is null or it is already in the station.
      */
     public void addDock(Dock dock)
@@ -50,10 +73,10 @@ public class BikeStation
     }
 
     /**
-     * Returns the {@link Dock} of the station with the given ID.
-     * The search stops as soon as the dock is found.
-     * @param idDock The ID of the dock to look for.
-     * @return The dock with that ID, or null if there is no dock with that ID in the station.
+     * Looks for the {@link Dock} of the station that has this ID.
+     * The search stops when the dock is found.
+     * @param idDock The ID of the dock that we are looking for.
+     * @return The dock with this ID, or null if the station does not have a dock with this ID.
      */
     public Dock getDock(String idDock)
     {
@@ -69,11 +92,8 @@ public class BikeStation
     }
 
     /**
-     * Returns the first free {@link Dock} of the station, following the
-     * order in which the docks are kept. The search stops as soon as a
-     * free dock is found.
-     * @return The first free dock, or null if all the docks are occupied
-     * or the station has no docks.
+     * Retrieves the first free {@link Dock} found at the station.
+     * @return A free {@link Dock}, or null if none are found.
      */
     public Dock getFreeDock()
     {
@@ -89,7 +109,7 @@ public class BikeStation
     }
 
     /**
-     * Calculates the total number of bikes recharged in all the docks of the station.
+     * Calculates how many bikes have been recharged in all the docks of the station.
      * @return The total number of bikes recharged in this station.
      */
     public int getTotalBikesRecharged()
@@ -101,9 +121,20 @@ public class BikeStation
         return total;
     }
 
+
+
+
+
+
+    //=================================GETTERS AND SETTERS=================================
+
+
+
+
+
+
     /**
-     * Gets the unique identifier of the station.
-     * @return The ID of the station.
+     * @return The unique identifier of the charging station.
      */
     public String getId()
     {
@@ -111,8 +142,8 @@ public class BikeStation
     }
 
     /**
-     * Sets the unique identifier of the station.
-     * @param id The new ID of the station. Must not be null or empty.
+     * Changes the identifier of the station.
+     * @param id The new ID of the station. It cannot be null or empty.
      * @throws IllegalArgumentException If the ID is null or empty.
      */
     public void setId(String id)
@@ -122,7 +153,7 @@ public class BikeStation
     }
 
     /**
-     * Gets the location of the station.
+     * Returns the location of the station.
      * @return The location of the station in the city.
      */
     public Location getLocation()
@@ -131,9 +162,9 @@ public class BikeStation
     }
 
     /**
-     * Sets the location of the station.
-     * @param location The new location of the station. Must not be null.
-     * @throws NullPointerException If the location is null.
+     * Set the current location of the charging station.
+     * @param location Where it is. Must not be null.
+     * @throws NullPointerException If location is null.
      */
     public void setLocation(Location location)
     {
@@ -142,9 +173,9 @@ public class BikeStation
     }
 
     /**
-     * Gets the docks of the station, in the order in which they are kept.
-     * A copy of the list is returned, so the internal list of the station
-     * cannot be modified from outside.
+     * Returns the docks of the station, in their order. It returns a copy
+     * of the list, so nobody can change the list of the station from
+     * outside the class.
      * @return A copy of the list of docks of the station.
      */
     public List<Dock> getDocks()
@@ -153,15 +184,14 @@ public class BikeStation
     }
 
     /**
-     * Sets the docks of the station. Every dock of the list is checked in the
-     * same way as in {@link #addDock(Dock)}, and the list is only stored if
-     * all of them are valid, so the station never keeps an invalid list.
-     * The station stores a copy of the list received, sorted with the order
-     * required for the docks.
-     * @param docks The new list of docks. Must not be null and must not
-     * contain null or repeated docks.
-     * @throws IllegalArgumentException If the list is null or it contains
-     * a null or repeated dock.
+     * Changes the docks of the station. Each dock of the list is checked
+     * like in {@link #addDock(Dock)}, and the list is only saved if all the
+     * docks are valid. In this way the station never has a wrong list.
+     * The station saves a copy of the list, sorted in the correct order.
+     * @param docks The new list of docks. It cannot be null and it cannot
+     * have null docks or repeated docks.
+     * @throws IllegalArgumentException If the list is null or it has a null
+     * dock or a repeated dock.
      */
     public void setDocks(List<Dock> docks)
     {
@@ -177,10 +207,22 @@ public class BikeStation
         this.docks = newDocks;
     }
 
+
+
+
+
+
+    //=======================================CHECKERS=======================================
+
+
+
+
+
+
     /**
-     * Checks that a station identifier is valid.
-     * It is only for internal use of the class (constructor and setId).
-     * @param id The identifier to check.
+     * Checks that the identifier of the station is valid.
+     * We only use it inside this class (in the constructor and in setId).
+     * @param id The identifier that we want to check.
      * @throws IllegalArgumentException If the identifier is null or empty.
      */
     private void checkId(String id)
@@ -191,9 +233,9 @@ public class BikeStation
     }
 
     /**
-     * Checks that a location is valid.
-     * It is only for internal use of the class (constructor and setLocation).
-     * @param location The location to check.
+     * Checks that the location is valid.
+     * We only use it inside this class (in the constructor and in setLocation).
+     * @param location The location that we want to check.
      * @throws NullPointerException If the location is null.
      */
     private void checkLocation(Location location)
@@ -205,9 +247,9 @@ public class BikeStation
 
     /**
      * Checks that a dock can be added to a list of docks of the station.
-     * It is only for internal use of the class (addDock and setDocks).
-     * @param dock The dock to check.
-     * @param list The list of docks where the dock is going to be added.
+     * We only use it inside this class (in addDock and in setDocks).
+     * @param dock The dock that we want to check.
+     * @param list The list of docks where we want to add the dock.
      * @throws IllegalArgumentException If the dock is null or it is already in the list.
      */
     private void checkDock(Dock dock, List<Dock> list)
@@ -221,11 +263,23 @@ public class BikeStation
         }
     }
 
+
+
+
+
+
+    //============================EQUALS, HASHCODE AND TOSTRING============================
+
+
+
+
+
+
     /**
-     * Checks whether this station is equal to another object.
-     * Two stations are considered equal if they have the same idStation.
-     * @param obj The object to compare with this station.
-     * @return true if obj is a {@link BikeStation} with the same idStation, false otherwise.
+     * Compares this station with another object. Two stations are equal if
+     * they have the same idStation.
+     * @param obj The object that we want to compare with this station.
+     * @return true if obj is a {@link BikeStation} with the same idStation, false if not.
      */
     @Override
     public boolean equals(Object obj)
@@ -241,8 +295,8 @@ public class BikeStation
     }
 
     /**
-     * Returns a hash code for this station, based on its idStation
-     * (the same field used in {@link #equals(Object)}).
+     * Returns a hash code for this station. It uses the idStation, because
+     * it is the same field that we use in {@link #equals(Object)}.
      * Hashcode technique taken from Effective Java by Joshua Bloch.
      * @return The hash code of the station.
      */
@@ -255,10 +309,10 @@ public class BikeStation
     }
 
     /**
-     * Returns a string representation of the station with the format required
-     * by the simulation output: ID, number of bikes recharged and location.
+     * Returns the information of the station as a text, with the format of
+     * the output of the simulation: ID, number of bikes recharged and location.
      * Example: (BikeStation: CC00, 0, 10-5)
-     * @return A string representation of the station.
+     * @return The information of the station as a text.
      */
     @Override
     public String toString()
