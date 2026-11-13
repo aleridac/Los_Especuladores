@@ -1,0 +1,77 @@
+
+
+English
+
+Project summary E-Bike Tour
+
+We are the group Los Especuladores, made up of Pablo Blanco Lucas,
+Álvaro Lancho Tapia and Alejandro Lérida Carballo.
+
+To run the simulation, open the project in BlueJ and right-click on
+the EBikeDemo class box in the diagram, then choose the main() method.
+That launches the whole simulation.
+
+If you want to try a different scenario (SIMPLE, MEDIUM or ADVANCED),
+you have to go inside the EBikeDemo class and change the DEMO constant
+to the value you want to try, save, and run main() again.
+
+For the extras, we have used the Iterator in several parts of the
+project (in BikeStation and in EBCompany, to go through and search in
+their lists), we have used the Collections to keep the lists of bikes,
+stations and docks sorted, and we have made the comparators that were
+asked for plus two more, six in total: by bike ID, by the step in
+which the bikes arrive, by station ID, by the number of bikes
+recharged in a station, by dock ID and by the charging speed of the
+docks.
+
+We have also made the unit tests with JUnit, creating the objects
+needed for each test (the fixtures) and testing the methods from
+BlueJ's own interface, with tests for the classes Location, Dock,
+BikeStation, EBCompany and ElectricBike.
+
+Finally, we have used the Git tool that comes with BlueJ throughout
+the whole development of the project, making commits every time we
+finished or made progress on some part of the code.
+
+
+
+
+
+
+
+
+Español
+
+Resumen del proyecto.
+
+Somos el grupo Los Especuladores, formado por Pablo Blanco Lucas,
+Álvaro Lancho Tapia y Alejandro Lérida Carballo.
+
+Para ejecutar la simulación hay que abrir el proyecto en BlueJ y, sobre
+la cajita de la clase EBikeDemo en el diagrama, hacer clic derecho y
+elegir el método main(). Con eso ya se lanza la simulación completa.
+
+Si se quiere probar un escenario distinto (SIMPLE, MEDIUM o ADVANCED),
+hay que entrar dentro de la clase EBikeDemo y cambiar la constante
+DEMO por el valor que se quiera probar, guardar y volver a ejecutar
+main(). Está indicado con un comentario en mayúsculas y entre signgos 
+de exclamación
+
+En cuanto a los extras, hemos usado el Iterator en varios sitios del
+proyecto (en BikeStation y en EBCompany, para recorrer y buscar en
+sus listas), hemos usado las Collections para mantener ordenadas las
+listas de bicicletas, estaciones y docks, y hemos hecho los
+comparadores que se pedían más dos adicionales, hasta un total de
+seis: por id de bicicleta, por el turno en el que llegan las
+bicicletas, por id de estación, por el número de bicicletas
+recargadas en una estación, por id de dock y por la velocidad de
+carga de los docks.
+
+También hemos hecho las pruebas unitarias con JUnit, creando los
+objetos necesarios para cada prueba (los fixtures) y probando los
+métodos desde la propia interfaz de BlueJ, con pruebas para las
+clases Location, Dock, BikeStation, EBCompany y ElectricBike.
+
+Por último, hemos usado la herramienta de Git que trae BlueJ durante
+todo el desarrollo del proyecto, haciendo commits cada vez que
+terminábamos o avanzábamos en alguna parte del código.

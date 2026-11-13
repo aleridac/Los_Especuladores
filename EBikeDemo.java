@@ -11,6 +11,7 @@ import java.util.*;
  * <li>Demo ADVANCED(demo=DemoType.ADVANCED): Eight bikes are created.</li>
  * </ul>
  * * @author DP Clasess
+ * * @author lOS Especuladores
  * @version 2026
  */
 public class EBikeDemo
