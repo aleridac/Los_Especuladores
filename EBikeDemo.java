@@ -38,7 +38,7 @@ public class EBikeDemo
     private List<BikeStation> stations;
     
     /** Constant for selecting the demo scenario, using the {@link DemoType} enumeration. */
-    private static final DemoType DEMO=DemoType.SIMPLE;
+    private static final DemoType DEMO=DemoType.ADVANCED;// ¡¡CHANGE THIS LAST WORD TO CHANGE THE SIMULATION!!
     
         
     /**
@@ -54,6 +54,8 @@ public class EBikeDemo
         reset();
     }
 
+    
+    
     /**
      * Run the demo for a fixed number of steps (50 steps).
      * In each step, all bikes perform their action.
@@ -67,6 +69,9 @@ public class EBikeDemo
         }
         showFinalInfo();
     }
+    
+    
+    
 
     /**
      * Run the demo for one step by requesting all bikes to act.
@@ -86,6 +91,10 @@ public class EBikeDemo
             System.out.println(info + bike.getTargetLocation() + ")");
         }
     }
+    
+    
+    
+    
 
     /**
      * Reset the demo to a starting point.
@@ -126,6 +135,9 @@ public class EBikeDemo
     }
     
 
+    
+    
+    
     /**
      * Creates predefined {@link BikeStation}s and adds them to the company.
      * The stations list is sorted by ID using {@link ComparatorBikeStationId}.
@@ -142,6 +154,9 @@ public class EBikeDemo
         Collections.sort(stations, new ComparatorBikeStationId());
     }
 
+    
+    
+    
     /**
      * Creates a fixed number of {@link Dock} units for each {@link BikeStation}
      * and orders the Docks within each station.
@@ -168,6 +183,9 @@ public class EBikeDemo
         }
      }
 
+     
+     
+     
     /**
      * Displays the initial information for the simulation, including 
      * the details of all {@link ElectricBike}s and {@link BikeStation}s.
@@ -199,6 +217,8 @@ public class EBikeDemo
         System.out.println("(------------------)");
     }
 
+    
+    
     /**
      * Displays the final information after the simulation has run.
      * bikes are sorted by arrival step using {@link ComparatorEBArrivingStep}.
@@ -240,6 +260,7 @@ public class EBikeDemo
             }
         }
     }
+    
     
     
     /**

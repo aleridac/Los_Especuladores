@@ -70,6 +70,9 @@ public class EBCompany
         subscribedBikes.add(bike);
         Collections.sort(subscribedBikes, new ComparatorEBIdBike());
     }
+    
+    
+    
 
     /**
      * Adds a {@link BikeStation} to the company's network.
@@ -82,6 +85,8 @@ public class EBCompany
         stations.add(station);
         Collections.sort(stations, new ComparatorBikeStationId());
     }
+    
+    
 
     /**
      * Retrieves a {@link BikeStation} by its unique ID.
@@ -104,6 +109,8 @@ public class EBCompany
         }
         return found;
     }
+    
+    
 
     /**
      * Retrieves a {@link BikeStation} by its {@link Location}.
@@ -135,6 +142,7 @@ public class EBCompany
     {
         return subscribedBikes.size();
     }
+    
 
     /**
      * @return The total number of managed {@link BikeStation}s.
@@ -184,6 +192,8 @@ public class EBCompany
         checkName(name);
         this.name = name;
     }
+    
+    
 
     /**
      * Returns the bikes subscribed to the company, in order by their ID.
@@ -195,6 +205,8 @@ public class EBCompany
     {
         return new ArrayList<>(subscribedBikes);
     }
+    
+    
 
     /**
      * Changes the bikes subscribed to the company. Each bike of the list is
@@ -219,6 +231,8 @@ public class EBCompany
         Collections.sort(newBikes, new ComparatorEBIdBike());
         this.subscribedBikes = newBikes;
     }
+    
+    
 
     /**
      * Returns the stations of the company, in order by their ID. It returns
@@ -231,6 +245,9 @@ public class EBCompany
         return new ArrayList<>(stations);
     }
 
+    
+    
+    
     /**
      * Changes the stations of the company. Each station of the list is
      * checked like in {@link #addBikeStation(BikeStation)}, and the list is
@@ -280,6 +297,8 @@ public class EBCompany
         }
     }
 
+    
+    
     /**
      * Checks that a bike can be added to a list of bikes of the company.
      * We only use it inside this class (in addElectricBike and in setSubscribedBikes).
@@ -298,6 +317,8 @@ public class EBCompany
         }
     }
 
+    
+    
     /**
      * Checks that a station can be added to a list of stations of the company.
      * We only use it inside this class (in addBikeStation and in setStations).
@@ -347,6 +368,7 @@ public class EBCompany
         return getName().equals(other.getName());
     }
 
+    
     /**
      * Returns a hash code for this company. It uses the name, because it is
      * the same field that we use in {@link #equals(Object)}.
@@ -360,6 +382,9 @@ public class EBCompany
         result = 3 * result + getName().hashCode();
         return result;
     }
+    
+    
+    
 
     /**
      * Returns the information of the company as a text: the name, the

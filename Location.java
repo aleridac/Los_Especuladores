@@ -220,6 +220,7 @@ public class Location
                         "x-coordinate out of the grid (0-" + (EBikeDemo.MAXX - 1) + "): " + x);
         }
     }
+    
 
     /**
      * Checks that the y coordinate is inside the grid.
@@ -266,6 +267,9 @@ public class Location
         Location other = (Location) obj;
         return getX() == other.getX() && getY() == other.getY();
     }
+    
+    
+    
 
     /**
      * Generates a hash code for the location.
@@ -281,6 +285,10 @@ public class Location
         return result;
     }
 
+    
+    
+    
+    
     /**
      * @return A string representation of the location in the format "x-y".
      */

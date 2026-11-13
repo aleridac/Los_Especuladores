@@ -92,6 +92,8 @@ public class ElectricBike
             calculateRechargingPosition();
         }
     }
+    
+    
 
     /**
      * Gets a string representation of the planned route, including the recharging stop if one exists.
@@ -105,6 +107,9 @@ public class ElectricBike
         }
         return route + targetLocation;
     }
+    
+    
+    
 
     /**
      * Checks if the current battery level is sufficient to cover a given distance.
@@ -114,6 +119,11 @@ public class ElectricBike
     {
         return batteryLevel >= distanceToTheTargetLocation() * EBCompany.MOVINGCOST;
     }
+    
+    
+    
+    
+    
 
     /**
      * Determines the optimal intermediate {@link BikeStation} to visit for recharging
@@ -143,6 +153,11 @@ public class ElectricBike
             rechargingLocation = null;
         }
     }
+    
+    
+    
+    
+    
 
     /**
      * Get the Manhattan-like distance to the final target location from the current location.
@@ -153,6 +168,7 @@ public class ElectricBike
         return location.distance(targetLocation);
     }
 
+    
     /**
      * Simulates the recharging process when the bike arrives at a {@code rechargingLocation}.
      * The battery is charged to full capacity, the cost is calculated, and the route is recalculated.
@@ -228,6 +244,7 @@ public class ElectricBike
         }
     }
 
+    
     /**
      * Reduces the battery level by the cost of one movement step (defined in {@link EBCompany#MOVINGCOST}).
      * Ensures the battery level does not go below zero.
@@ -259,6 +276,7 @@ public class ElectricBike
     {
         return idBike;
     }
+    
 
     /**
      * Changes the identifier of the bike.
@@ -271,6 +289,8 @@ public class ElectricBike
         this.idBike = idBike;
     }
 
+    
+    
     /**
      * Returns the company of the bike.
      * @return The company of the bike.
@@ -280,6 +300,8 @@ public class ElectricBike
         return company;
     }
 
+    
+    
     /**
      * Changes the company of the bike.
      * @param company The new company. It cannot be null.
@@ -299,6 +321,8 @@ public class ElectricBike
     {
         return location;
     }
+    
+    
 
     /**
      * Set the current location.
@@ -319,6 +343,9 @@ public class ElectricBike
     {
         return targetLocation;
     }
+    
+    
+    
 
     /**
      * Set the required final target location.
@@ -339,6 +366,7 @@ public class ElectricBike
     {
         return rechargingLocation;
     }
+    
 
     /**
      * Changes the location of the station where the bike is going to recharge.
@@ -349,7 +377,8 @@ public class ElectricBike
     {
         this.rechargingLocation = rechargingLocation;
     }
-
+    
+    
     /**
      * Returns how many steps the bike has been without moving.
      * @return The idle count.
@@ -358,6 +387,8 @@ public class ElectricBike
     {
         return idleCount;
     }
+    
+    
 
     /**
      * Changes how many steps the bike has been without moving.
@@ -427,6 +458,7 @@ public class ElectricBike
         return wsCharged;
     }
 
+    
     /**
      * Changes the total energy that the bike has charged.
      * @param wsCharged The new total of wh charged. It cannot be negative.
@@ -438,6 +470,7 @@ public class ElectricBike
         this.wsCharged = wsCharged;
     }
 
+    
     /**
      * Returns how many times the bike has recharged.
      * @return The number of recharges.
@@ -466,6 +499,7 @@ public class ElectricBike
     {
         return chargesCost;
     }
+    
 
     /**
      * Changes the total price of all the recharges of the bike.
@@ -477,6 +511,8 @@ public class ElectricBike
         checkNotNegative(chargesCost, "cost of the recharges");
         this.chargesCost = chargesCost;
     }
+    
+    
 
     /**
      * Returns the docks where the bike has recharged, in the same order of
@@ -488,6 +524,9 @@ public class ElectricBike
     {
         return new ArrayList<>(docks);
     }
+    
+    
+    
 
     /**
      * Changes the docks where the bike has recharged. The bike saves a copy
@@ -562,6 +601,8 @@ public class ElectricBike
             throw new NullPointerException("The " + name + " of the bike cannot be null");
         }
     }
+    
+    
 
     /**
      * Checks that the identifier of the bike is valid.
@@ -589,6 +630,8 @@ public class ElectricBike
                         "The battery capacity must be greater than 0: " + capacity);
         }
     }
+    
+    
 
     /**
      * Checks that an integer number is not negative.
@@ -604,6 +647,9 @@ public class ElectricBike
         }
     }
 
+    
+    
+    
     /**
      * Checks that a decimal number is not negative.
      * We only use it inside this class (in setChargesCost and in incrementChargesCost).
@@ -648,6 +694,9 @@ public class ElectricBike
         ElectricBike other = (ElectricBike) obj;
         return getIdBike().equals(other.getIdBike());
     }
+    
+    
+    
 
     /**
      * Returns a hash code for this bike. It uses the idBike, because it is
@@ -663,6 +712,8 @@ public class ElectricBike
         return result;
     }
 
+    
+    
     /**
      * Returns a detailed string representation of the electric bike.
      * @return A string containing the bike's name, plate, battery info, charge counts, costs, idle count, and route.

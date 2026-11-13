@@ -90,6 +90,9 @@ public class BikeStation
         }
         return found;
     }
+    
+    
+    
 
     /**
      * Retrieves the first free {@link Dock} found at the station.
@@ -107,6 +110,7 @@ public class BikeStation
         }
         return freeDock;
     }
+    
 
     /**
      * Calculates how many bikes have been recharged in all the docks of the station.
@@ -140,6 +144,8 @@ public class BikeStation
     {
         return idStation;
     }
+    
+    
 
     /**
      * Changes the identifier of the station.
@@ -160,6 +166,12 @@ public class BikeStation
     {
         return location;
     }
+    
+    
+    
+    
+    
+    
 
     /**
      * Set the current location of the charging station.
@@ -171,6 +183,10 @@ public class BikeStation
         checkLocation(location);
         this.location = location;
     }
+    
+    
+    
+    
 
     /**
      * Returns the docks of the station, in their order. It returns a copy
@@ -182,6 +198,10 @@ public class BikeStation
     {
         return new ArrayList<>(docks);
     }
+    
+    
+    
+    
 
     /**
      * Changes the docks of the station. Each dock of the list is checked
@@ -231,6 +251,7 @@ public class BikeStation
             throw new IllegalArgumentException("The station ID cannot be null or empty");
         }
     }
+    
 
     /**
      * Checks that the location is valid.
@@ -293,6 +314,8 @@ public class BikeStation
         BikeStation other = (BikeStation) obj;
         return getId().equals(other.getId());
     }
+    
+    
 
     /**
      * Returns a hash code for this station. It uses the idStation, because
@@ -307,6 +330,7 @@ public class BikeStation
         result = 3 * result + getId().hashCode();
         return result;
     }
+    
 
     /**
      * Returns the information of the station as a text, with the format of
