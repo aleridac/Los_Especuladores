@@ -5,7 +5,7 @@ import java.util.*;
  * It is used to keep the stations of the simulation sorted by their ID and as
  * the tie-breaker of {@link ComparatorBikeStationNumerRecharged}.
  * @author DP classes
- * @author Alvaro
+ * @author Los Especuladores
  * @version 2026.11.10
  */
 public class ComparatorBikeStationId implements Comparator<BikeStation>

@@ -10,7 +10,7 @@ import java.util.*;
  * between two bikes that have arrived, the one with the higher idle count
  * is the one that arrived first.
  * It is used to show the bikes in the final information of the simulation.
- * @author Alvaro
+ * @author Los Especuladores
  * @version 2026.11.11
  */
 public class ComparatorEBArrivingStep implements Comparator<ElectricBike>

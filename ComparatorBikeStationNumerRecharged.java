@@ -5,7 +5,7 @@ import java.util.*;
  * in their docks, in descending order. In case of a tie, they are compared
  * by their ID in ascending order (using {@link ComparatorBikeStationId}).
  * It is used to show the stations in the final information of the simulation.
- * @author Alvaro
+ * @author Los Especuladores
  * @version 2026.11.10
  */
 public class ComparatorBikeStationNumerRecharged implements Comparator<BikeStation>

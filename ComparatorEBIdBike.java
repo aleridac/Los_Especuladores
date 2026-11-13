@@ -5,7 +5,7 @@ import java.util.*;
  * It is used to keep the bikes of the simulation sorted by their ID, which is
  * the order in which they are shown and in which they act in each step.
  * @author DP classes
- * @author Alvaro
+ * @author Los Especuladores
  * @version 2026.11.10
  */
 public class ComparatorEBIdBike implements Comparator<ElectricBike>

@@ -6,7 +6,7 @@ import java.util.*;
  * and if there is still a tie, by their ID in ascending order
  * (using {@link ComparatorDocksId}).
  * This is the order in which the docks are kept inside a {@link BikeStation}.
- * @author Alvaro
+ * @author Los Especuladores
  * @version 2026.11.10
  */
 public class ComparatorDocksChargingSpeed implements Comparator<Dock>

@@ -4,7 +4,7 @@ import java.util.*;
  * Compares two {@link Dock} objects based on their ID in ascending order.
  * It is used as the final tie-breaker of {@link ComparatorDocksChargingSpeed}.
  * @author DP classes
- * @author Alvaro
+ * @author Los Especuladores
  * @version 2026.11.10
  */
 public class ComparatorDocksId implements Comparator<Dock>
